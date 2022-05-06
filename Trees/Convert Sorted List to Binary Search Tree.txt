@@ -1,0 +1,83 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        
+         ListNode ptr1 = head;
+        ListNode ptr2 = head;
+        
+        while(ptr2!=null && ptr2.next!=null){
+            ptr1 = ptr1.next;
+            ptr2 = ptr2.next.next;
+        }
+                
+        return sortedListToBSTHelper(head, (ptr2!=null)?ptr2.next:ptr2);
+        
+    }
+    
+    public TreeNode sortedListToBSTHelper(ListNode head,ListNode tail) {
+        if(head==tail){
+            return null;
+        }
+        ListNode ptr1 = head;
+        ListNode ptr2 = head;
+        
+        while(ptr2!=tail && ptr2.next!=tail){
+            ptr1 = ptr1.next;
+            ptr2 = ptr2.next.next;
+        } 
+        
+//         TreeNode left = head;
+//         TreeNode right = ;
+        
+//         if(ptr1.left==null){
+//           left = null;
+//         }
+        
+        TreeNode node = new TreeNode(ptr1.val);
+        
+        node.left = sortedListToBSTHelper(head, ptr1);
+        node.right = sortedListToBSTHelper(ptr1.next, tail);
+        
+        return node;
+        
+    }
+    
+//     public ListNode getMiddleNode(ListNode root){
+//         if(root==null || root.right==null){
+//             return root;
+//         }
+        
+//         ListNode ptr1 = root;
+//         ListNode ptr2 = root;
+        
+//         while(ptr2.right!=null && ptr2.right.right!=null){
+//             ptr1 = ptr1.right;
+//             ptr2 = ptr2.right.right;
+//         }        
+//         return ptr1;
+//     }
+}
