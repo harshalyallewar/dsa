@@ -1,0 +1,51 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    
+    int count = 0;
+    
+    public int pathSum(TreeNode root, int targetSum) {
+        if(root==null){
+            return 0;
+        }
+        //System.out.println("new node down :"+root.val);
+        isTargetPresent(root,0, targetSum);
+        
+        pathSum(root.left, targetSum);
+        pathSum(root.right, targetSum);
+        
+        return count;
+    }
+    
+    public void isTargetPresent(TreeNode root,int sum,  int targetSum) {
+        if(root==null){
+            return;
+        }
+        
+     int nsum = sum+root.val;
+        
+      // System.out.println(nsum);
+        
+        if(nsum==targetSum){
+          //  System.out.println("count increased at"+root.val);
+            count++;
+        }
+                
+        isTargetPresent(root.left, nsum,targetSum) ;
+        isTargetPresent(root.right, nsum,targetSum) ;
+        
+    }
+}
