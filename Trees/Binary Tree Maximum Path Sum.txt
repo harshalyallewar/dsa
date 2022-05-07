@@ -1,0 +1,53 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class pair {
+    int NTNmax = -(int)1e9; // node to node maxpath
+    int PINmax = 0; //path including node max
+}
+
+class Solution {
+    public int maxPathSum(TreeNode root) {
+           pair ans = maxPathSumHelper(root);
+        return ans.NTNmax;
+    }
+    
+    public pair maxPathSumHelper(TreeNode root) {
+        pair pairSum = new pair();
+        
+        if(root==null) return pairSum;
+        
+        pair lp = maxPathSumHelper(root.left);
+        pair rp = maxPathSumHelper(root.right);
+        
+        int PIN = Math.max(lp.PINmax, rp.PINmax); //path including node sum
+        pairSum.PINmax = Math.max(PIN+root.val, root.val);
+//         pairSum.NTNmax = Math.max(root.val, Math.max(lp.PINmax+rp.PINmax+root.val, Math.max(Math.max(lp.PINmax, rp.PINmax)+root.val, Math.max(lp.NTNmax, rp.NTNmax))));
+        
+        pairSum.NTNmax = getMax(PIN+root.val, lp.PINmax+rp.PINmax+root.val, lp.NTNmax, rp.NTNmax, root.val);
+        return pairSum;
+    }
+    
+    public int getMax(int... arr){
+        int max = arr[0];
+        
+        for(int ele:arr){
+            max = Math.max(max,ele);
+        }
+        
+        return max;
+    }
+}
