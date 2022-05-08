@@ -20,25 +20,18 @@ class Solution {
     }
     
     public List<TreeNode> allPossibleFBTHelper(int n) {
-        if(n==0){
-            return new ArrayList<>();
-        }
         
         if(n==1){
             List<TreeNode> base1 = new ArrayList<>();
             base1.add(new TreeNode(0));
             return base1;
         }
-        
-        
-        
-        
+            
         List<TreeNode> ans = new ArrayList<>();
-        n = n-1;
-        for(int i=1;i<=n;i++){
+        for(int i=1;i<n;i+=2){ // only odd segregation can make complete binary treee
             
             List<TreeNode> left = allPossibleFBTHelper(i);
-            List<TreeNode> right = allPossibleFBTHelper(n-i);
+            List<TreeNode> right = allPossibleFBTHelper(n-i-1);
             
             if(left.size()==0 || right.size()==0) continue;
             
@@ -50,7 +43,6 @@ class Solution {
                     ans.add(newnode);
                 }
             }
-            
         }
         return ans;
     }
