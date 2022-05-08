@@ -1,0 +1,57 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<TreeNode> allPossibleFBT(int n) {
+        if(n==0) return new ArrayList<>();
+        return allPossibleFBTHelper(n);
+    }
+    
+    public List<TreeNode> allPossibleFBTHelper(int n) {
+        if(n==0){
+            return new ArrayList<>();
+        }
+        
+        if(n==1){
+            List<TreeNode> base1 = new ArrayList<>();
+            base1.add(new TreeNode(0));
+            return base1;
+        }
+        
+        
+        
+        
+        List<TreeNode> ans = new ArrayList<>();
+        n = n-1;
+        for(int i=1;i<=n;i++){
+            
+            List<TreeNode> left = allPossibleFBTHelper(i);
+            List<TreeNode> right = allPossibleFBTHelper(n-i);
+            
+            if(left.size()==0 || right.size()==0) continue;
+            
+            for(TreeNode l: left){
+                for(TreeNode r: right){
+                    TreeNode newnode = new TreeNode(0);
+                    newnode.left = l;
+                    newnode.right = r;
+                    ans.add(newnode);
+                }
+            }
+            
+        }
+        return ans;
+    }
+}
