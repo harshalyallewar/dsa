@@ -1,0 +1,83 @@
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        
+        int size = heights.length;
+        int[] NSER = getNSEatRight(heights);
+        int[] NSEL = getNSEatLeft(heights);
+        int max = 0;
+        
+        // display(NSER);
+        // display(NSEL);
+        
+        for(int i=0;i<size;i++){
+             int rb = NSER[i];
+             int lb = NSEL[i];
+            
+            // if(rb==-1 && lb==-1){
+            //     max = Math.max(max, (size-1-0+1)*heights[i]);
+            // } else if(rb==-1){
+            //     max = Math.max(max, (size-1-lb)*heights[i]);
+            // } else if(lb==-1){
+            //     max = Math.max(max, (rb-0)*heights[i]);
+            // } else {
+            //     max = Math.max(max, (rb-lb-1)*heights[i]);
+            // }
+            
+            max = Math.max(max, (rb-lb-1)*heights[i]);
+        }
+        return max;
+    }
+    
+    public int[] getNSEatRight(int[] arr){
+        
+        LinkedList<Integer> stk = new LinkedList<>();
+        int size = arr.length;
+        int[] ans = new int[size];
+        
+        for(int i=size-1;i>=0;i--){
+            while(stk.size()>0 && arr[stk.getFirst()]>=arr[i]){
+                stk.removeFirst();
+            }
+            
+            if(stk.size()==0){
+                ans[i] = size;
+            } else {
+                ans[i] = stk.getFirst();
+            }
+            
+            stk.addFirst(i);
+        }
+        return ans;
+    }
+    
+    public int[] getNSEatLeft(int[] arr){
+        
+        LinkedList<Integer> stk = new LinkedList<>();
+        int size = arr.length;
+        int[] ans = new int[size];
+        
+        for(int i=0;i<size;i++){
+            while(stk.size()>0 && arr[stk.getFirst()]>=arr[i]){
+                stk.removeFirst();
+            }
+            
+            if(stk.size()==0){
+                ans[i] = -1;
+            } else {
+                ans[i] = stk.getFirst();
+            }
+            
+            stk.addFirst(i);
+        }
+        return ans;
+    }
+    
+    public void display(int[] a) {
+    StringBuilder sb = new StringBuilder();
+
+    for (int val : a) {
+      sb.append(val + "\n");
+    }
+    System.out.println(sb);
+  }
+}
