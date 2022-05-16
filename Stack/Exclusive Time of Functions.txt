@@ -1,0 +1,38 @@
+class Solution {
+    
+   private class pair {
+        int st;
+        int id;
+        int ce;
+    }
+    
+    public int[] exclusiveTime(int n, List<String> logs) {
+        Stack<pair> stk = new Stack<>();
+        int[] ans = new int[n];
+        
+        for(int i=0;i<logs.size();i++){
+            String[] log = logs.get(i).split(":");
+           // System.out.println(log[0]+" "+log[1]+" "+log[2]);
+            if(log[1].equals("start")){
+                pair p = new pair();
+                p.id = Integer.parseInt(log[0]);
+                p.st = Integer.parseInt(log[2]);
+                p.ce = 0;
+                
+                stk.push(p);
+            } else {
+                pair p = stk.pop();
+                
+                int interval = Integer.parseInt(log[2]) - p.st+1;
+                int time = interval - p.ce;
+                ans[p.id] += time;
+               
+                
+                if(stk.size()>0){
+                    stk.peek().ce += interval;
+                }
+            }
+        }
+        return ans;
+    }
+}
