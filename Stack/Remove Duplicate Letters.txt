@@ -1,0 +1,43 @@
+class Solution {
+    public String removeDuplicateLetters(String s) {
+        
+        HashMap<Character, Integer> map = new HashMap<>();
+        boolean[] arr = new boolean[26];
+        
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
+            
+            if(map.containsKey(ch)){
+                map.put(ch, map.get(ch)+1);
+            } else {
+                map.put(ch, 1);
+            }
+        }
+        
+        
+        Stack<Character> stk = new Stack<>();
+        
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
+            map.put(ch, map.get(ch)-1);
+            if(arr[ch-'a']){
+                continue;
+            }
+            
+            while(stk.size()>0 && ch<stk.peek() && map.get(stk.peek())>0){
+                arr[stk.peek()-'a'] = false;
+                stk.pop();
+                
+            }
+
+                stk.push(ch);   
+                arr[ch-'a'] = true;
+            
+        }
+        
+        char[] ans = new char[stk.size()];
+        int idx = ans.length-1;
+        while(stk.size()>0) ans[idx--] = stk.pop();
+        return new String(ans);
+    }
+}
