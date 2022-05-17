@@ -1,0 +1,23 @@
+class Solution {
+    public int trap(int[] height) {
+        int lp = 0;
+        int rp = height.length-1;
+        int lmax = 0;
+        int rmax = 0;
+        int ans = 0;
+        
+        while(lp<rp){
+            lmax = Math.max(lmax, height[lp]);
+            rmax = Math.max(rmax, height[rp]);
+            
+            if(lmax<rmax){
+                ans += lmax-height[lp];
+                lp++;
+            } else {
+                ans += rmax-height[rp];
+                rp--;
+            }
+        }
+        return ans;
+    }
+}
