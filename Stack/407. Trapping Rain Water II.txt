@@ -1,0 +1,63 @@
+class Solution {
+    
+    class pair implements Comparable<pair>{
+        int row;
+        int col;
+        int height;
+        
+        pair(int row, int col, int height){
+            this.row = row;
+            this.col = col;
+            this.height = height;
+        }
+        
+        public int compareTo(pair o){
+            return this.height-o.height;
+        }
+    }
+    public int trapRainWater(int[][] heightMap) {
+        int ans = 0;
+        int m = heightMap.length;
+        int n = heightMap[0].length;
+        PriorityQueue<pair> PQ = new PriorityQueue<>();
+        boolean[][] vis = new boolean[m][n];
+        
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0 || j==0 || i==m-1 || j==n-1){
+                    PQ.add(new pair(i, j, heightMap[i][j]));
+                    vis[i][j] = true;
+                }
+            }
+        }
+        
+        int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};
+        
+        
+        
+        while(PQ.size()>0){
+            int rowdash;
+            int coldash;
+            pair p = PQ.remove();
+            
+            for(int[] dir: dirs){
+            
+                rowdash = p.row + dir[0];
+                coldash = p.col + dir[1];
+                
+                if(rowdash>0 && coldash>0 && rowdash<m && coldash<n && vis[rowdash][coldash]==false){
+                    ans += Math.max(0, p.height-heightMap[rowdash][coldash]);
+                    
+                    if(p.height>heightMap[rowdash][coldash]){
+                        PQ.add(new pair(rowdash, coldash, p.height));
+                    } else {
+                        PQ.add(new pair(rowdash, coldash, heightMap[rowdash][coldash]));
+                    }
+                    
+                    vis[rowdash][coldash] = true;
+                }
+        }
+    }
+        return ans;
+}
+}
