@@ -1,0 +1,88 @@
+class Solution {
+    public int calculate(String s) {
+        Stack<Integer> nums = new Stack<>();
+        Stack<Character> optors = new Stack<>();
+        
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
+            
+           if(Character.isDigit(ch)){
+               int val = 0;
+               
+               while(i<s.length() && Character.isDigit(s.charAt(i))){
+                   val *= 10;
+                   val += s.charAt(i) - '0';
+                   i++;
+               }
+               i--;
+               
+               nums.push(val);
+               
+               
+           } else if(ch=='+' || ch=='-') {
+                optors.push(ch);               
+           } else if(ch=='*' || ch=='/') {
+               int val = 0;
+               i++;
+               while(i<s.length()){
+                   char tch = s.charAt(i);
+                   
+                   if(Character.isWhitespace(tch)){
+                       
+                   } else if(Character.isDigit(tch)){
+                       val *= 10;
+                       val += s.charAt(i) - '0';
+                   } else {
+                       break;
+                   } 
+                   i++;
+               }
+               i--;
+               
+               //System.out.println(" a = " + nums.peek()+" b = "+val+" ch = "+ch);
+               
+               int op = getResult(nums.pop(), (val==0)?1:val, ch);
+               nums.push(op);
+           }
+        }
+        
+        Stack<Integer> newnums = new Stack<>();
+        Stack<Character> newoptors = new Stack<>();
+        
+        while(nums.size()>0){
+            newnums.push(nums.pop());
+        }
+        
+        while(optors.size()>0){
+            newoptors.push(optors.pop());
+        }
+        
+        nums = newnums;
+        optors = newoptors;
+        
+        while(nums.size()>0 && optors.size()>0){
+            //System.out.println("whilelloop");
+            int a = nums.pop();
+            int b = nums.pop();
+            
+            int res = getResult(a, b, optors.pop());
+            nums.push(res);
+        }
+        
+        return nums.pop();
+    }
+    
+    private int getResult(int a, int b, char ch){
+       // System.out.println(" a = " + a+" b = "+b+" ch = "+ch);
+        if(ch=='+'){
+            return a+b;
+        } else if(ch=='-'){
+            return a-b;
+        } else if(ch=='*'){
+            return a*b;
+        } else if(ch=='/'){
+            return a/b;
+        }
+        return 0;
+    }
+}
