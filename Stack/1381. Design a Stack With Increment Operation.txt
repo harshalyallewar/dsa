@@ -1,0 +1,42 @@
+class CustomStack {
+    int[] arr;
+    int ci = 0;
+
+    public CustomStack(int maxSize) {
+        arr = new int[maxSize];
+    }
+    
+    public void push(int x) {
+        if(ci<arr.length){
+            arr[ci++] = x;
+        }
+        
+    }
+    
+    public int pop() {
+        if(ci==0){
+            return -1;
+        } else {
+            ci--;
+            return arr[ci];
+        }
+    }
+    
+    public void increment(int k, int val) {
+        if(k>ci){
+            k = ci;
+        } 
+        
+        for(int i=0;i<k;i++){
+            arr[i] += val;
+        }
+    }
+}
+
+/**
+ * Your CustomStack object will be instantiated and called as such:
+ * CustomStack obj = new CustomStack(maxSize);
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * obj.increment(k,val);
+ */
