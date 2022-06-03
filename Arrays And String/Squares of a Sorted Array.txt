@@ -1,0 +1,59 @@
+class Solution {
+    public int[] sortedSquares(int[] nums) {
+        int i=0;
+        int j=nums.length-1;
+        
+        int[] ans = new int[nums.length];
+        int idx = 0;
+        
+        while(i<nums.length && nums[i]<0){
+                i++;
+            }
+            
+            while(j>=0 && nums[j]>=0){
+                j--;
+            }
+        
+        while(i<nums.length && j>=0){
+            
+            if(nums[i]<-nums[j]){
+                ans[idx++] = nums[i++];
+            } else {
+                ans[idx++] = -nums[j--];
+            }
+            
+            //shift i,j to proper number
+            
+            while(i<nums.length && nums[i]<0){
+                i++;
+            }
+            
+            while(j>=0 && nums[j]>=0){
+                j--;
+            }
+        }
+        
+        if(j<0){
+            while(i<nums.length){
+                ans[idx++] = nums[i++];
+                while(i<nums.length && nums[i]<0){
+                i++;
+            }
+            }           
+        } else {
+            while(j>=0){
+                ans[idx++] = nums[j--];
+                while(j>=0 && nums[j]>=0){
+                j--;
+            }
+            }
+        }
+        
+        for(int k=0;k<ans.length;k++){
+            ans[k] *= ans[k];
+        }
+        
+        return ans;
+    }
+    
+}
