@@ -1,0 +1,27 @@
+class Solution {
+    public boolean isValid(String s) {
+       Stack<Character> stk = new Stack<>();
+        
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
+            
+            if(ch=='c'){
+                if(stk.size()<2) return false;
+                
+                char b = stk.pop();
+                char a = stk.pop();
+                
+                if(b!='b' || a!='a'){
+                    return false;
+                }
+            } else {
+                stk.push(ch);
+            }
+        }
+        if(stk.size()>0){
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
