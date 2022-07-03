@@ -1,0 +1,27 @@
+class Solution {
+    public int partitionDisjoint(int[] nums) {
+        int n = nums.length;
+        
+        int[] minarr = new int[n];
+        
+        int min = Integer.MAX_VALUE;
+        
+        for(int i=n-1;i>=0;i--){
+            min = Math.min(min, nums[i]);
+            minarr[i] = min;
+        }
+        
+        int ans = 1;
+        int max = nums[0];
+        
+        for(int i=1;i<n;i++){
+            if(max<=minarr[i]){
+                break;
+            }
+            
+            max = Math.max(max,nums[i]);
+            ans++;  
+        }
+        return ans;
+    }
+}
